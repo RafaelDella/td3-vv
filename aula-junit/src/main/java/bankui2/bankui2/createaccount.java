@@ -85,33 +85,38 @@ class createaccount extends JFrame  implements ActionListener {
 		c.add(jl5);c.add(jl6);c.add(jl7);c.add(jl8);
 		c.add(jl9);
 		
-		
-		
-
-	
 	}
 	
-
-
-	
+// --------------------------------------------------------------------------------
+// --- MÉTODO ACTIONPERFORMED CORRIGIDO ---
+// As linhas de parsing (Long.parseLong, Integer.parseInt) foram movidas 
+// para dentro do bloco try-catch para tratar NumberFormatException.
+// --------------------------------------------------------------------------------
 public void actionPerformed(ActionEvent e){
 	 
 	if (e.getSource()==jb){
-			String s1 = tf1.getText();
-			long ss1 = Long.parseLong(s1);
+	     // ⚠️ CORREÇÃO: Mover todo o código propenso a falhas para DENTRO do try.
+	     try{ 
+	     	// --- INÍCIO DO CÓDIGO DE PARSING DENTRO DO TRY ---
+	     	String s1 = tf1.getText();
+	     	long ss1 = Long.parseLong(s1);
+	     	
 	     	String s2 = tf2.getText();
 	     	String s3 = tf3.getText();
 	     	long ss3 = Long.parseLong(s3);
+	     	
 	     	String s4 = tf4.getText();
 	     	String s5 = tf5.getText();
 	     	long ss5 = Long.parseLong(s5);
+	     	
 	     	String s6 = tf6.getText();
 	     	String s7 = tf7.getText();
 	     	int ss7 = Integer.parseInt(s7);
+	     	
 	     	String s8 = tf8.getText();
 	     	String s9 = tf9.getText();
+	     	// --- FIM DO CÓDIGO DE PARSING DENTRO DO TRY ---
 	     	
-	      try{
 	       Class.forName("oracle.jdbc.driver.OracleDriver");
            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:orcl", "scott",	"hr");
            PreparedStatement ps = con.prepareStatement("insert into test4 values(?,?,?,?,?,?,?,?,?)");
@@ -137,7 +142,7 @@ public void actionPerformed(ActionEvent e){
            tf8.setText("  MALE OR FEMALE ");
            tf9.setText(" EMAIL ID  ");
 	      }
-	      catch(Exception ex) 
+	      catch(Exception ex) // Este catch agora captura a NumberFormatException
           {
               System.out.println(ex);
           }
